@@ -1,3 +1,4 @@
+import {Customer}  from '../../modals/Customer';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,13 +9,13 @@ import { CustomerService } from 'src/app/services/customer.service';
   templateUrl: './view-customer.component.html',
   styleUrls: ['./view-customer.component.css']
 })
-export class ViewCustomerComponent implements OnInit, AfterViewInit {
+export class ViewCustomerComponent implements OnInit {
 
-  public ELEMENT_DATA: any = []
+  public CUSTOMER_DATA: any = []
   tableLoaded = false
 
-  displayedColumns: any = ['id', 'name', 'email', 'phone', 'address'];
-  dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+  displayedColumns: Customer | any = ['id', 'name', 'email', 'phone', 'address'];
+  dataSource = new MatTableDataSource<any>(this.CUSTOMER_DATA);
   @ViewChild('TABLE') table: ElementRef | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
@@ -23,24 +24,19 @@ export class ViewCustomerComponent implements OnInit, AfterViewInit {
   constructor(
     private customerService: CustomerService
   ) {
-
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
     this.customerService.getCustomer()
       .then((data) => {
         console.log(data);
-        this.ELEMENT_DATA = data
+        this.CUSTOMER_DATA = data
 
       // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<Customer>(this.CUSTOMER_DATA);
+      this.dataSource.paginator = this.paginator
       this.dataSource.sort = this.sort;
       this.tableLoaded = true;
       })
@@ -51,10 +47,6 @@ export class ViewCustomerComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
