@@ -4,6 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerService } from 'src/app/services/customer.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-customer',
   templateUrl: './view-customer.component.html',
@@ -14,7 +15,7 @@ export class ViewCustomerComponent implements OnInit {
   public CUSTOMER_DATA: any = []
   tableLoaded = false
 
-  displayedColumns: Customer | any = ['id', 'name', 'email', 'phone', 'address'];
+  displayedColumns: Customer | any = ['name', 'email', 'phone', 'address', 'detail'];
   dataSource = new MatTableDataSource<any>(this.CUSTOMER_DATA);
   @ViewChild('TABLE') table: ElementRef | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
@@ -22,7 +23,8 @@ export class ViewCustomerComponent implements OnInit {
 
 
   constructor(
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private route_: Router
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
@@ -45,6 +47,12 @@ export class ViewCustomerComponent implements OnInit {
 
       })
 
+  }
+
+  specificCustomerDetails(index:number){
+    this.route_.navigate([
+      `./details-customer` ,{"customer": JSON.stringify(this.CUSTOMER_DATA[index])}
+    ]);
   }
 
 
