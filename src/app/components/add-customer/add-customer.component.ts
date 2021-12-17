@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -16,7 +17,8 @@ export class AddCustomerComponent implements OnInit {
 
 
   constructor(
-    protected customerService: CustomerService
+    protected customerService: CustomerService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +59,13 @@ export class AddCustomerComponent implements OnInit {
 
   addUser(name: string, email: string, contact: string, address: string) {
     this.customerService.addCustomer(name, email, contact, address)
+    .then((data) => {
+      this.router.navigate(['./view-customer', ]);
+    })
+    .catch((err) =>{
+      console.log(err);
+
+    })
 
   }
 
