@@ -39,9 +39,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
     ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatTableModule,
-    RouterModule.forRoot([]),
-    HttpClientTestingModule
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent],
