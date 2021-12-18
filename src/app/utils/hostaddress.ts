@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HostService {
-  ip: string = "https://customerdemoapi.herokuapp.com";
+  ip: string = "https://www.customerdemoapi.herokuapp.com";
 
   constructor() { }
 
